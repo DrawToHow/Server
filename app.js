@@ -1,12 +1,14 @@
-require('dotenv').config()
 const express = require('express');
+const cors = require('cors')
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 const app = express();
 const mongoose = require('mongoose');
 const port = process.env.PORT || 6000
-const indexRoute = require('./Routes/index')
+require('dotenv').config()
 
 mongoose
-    .connect('mongodb://localhost/finalproject', {
+    .connect(process.env.MLAB, {
         useNewUrlParser: true
     })
     .then(() => {
@@ -14,15 +16,17 @@ mongoose
     })
     .catch(err => {
         console.log('mongodb ERROR', err)
-    })
+    });
 
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: false }));
 
-app.use('/', indexRoute)
-
-
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 app.listen(port, () => {
     console.log('express server started on port ', port)
 })
+
+module.exports = app;

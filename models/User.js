@@ -1,29 +1,37 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const {generateSalt, hashPassword, compare} = require('../helpers/helper')
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const bcrypt = require('bcryptjs')
 
 const userSchema = new Schema({
-    name: {
-        type: String,
-        required: [true, 'name is required'],
-    },
-    email: {
-        type: String,
-        required: [true, 'username is required'],
-    },
-    password: {
-        type: String,
-        required: [true, 'password is required'],
-    },
-    history: []
-});
-
-userSchema.pre('save', function(next){
-    let salt = generateSalt(10)
-    let psswd = hashPassword(this.password, salt)
-    this.password = psswd
-    next()
+  name: String,
+  email: {
+    type: String,
+    required: [true, 'Email is required'],
+    validate: {
+      isAsync: true,
+      validator: function (v, cb) {
+        User.findOne({email: v})
+          .then(data => {
+            cb(!data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      },
+      message: 'Duplicate email'
+    }
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is required']
+  }
 })
 
-const User = mongoose.model('User', userSchema);
+userSchema.pre('save', function (next) {
+  this.password = bcrypt.hashSync(this.password, 10)
+  next()
+})
+
+const User = mongoose.model('User', userSchema)
+
 module.exports = User
