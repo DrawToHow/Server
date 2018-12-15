@@ -26,7 +26,7 @@ describe('Authentication tests', function () {
                               .request(app)
                               .post('/users/register')
                               .send(user);
-
+                              
       expect(response).to.have.status(201);
       expect(response.body).to.be.an("object");
       expect(response.body).to.have.property('_id');
