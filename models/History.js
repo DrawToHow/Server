@@ -5,9 +5,7 @@ const historySchema = new Schema ({
     userId: String,
     tutorialId: String,
     score : Number,
-    Time : {
-        type : String
-    }
+    time : String
 },{
     timestamps : true
 });

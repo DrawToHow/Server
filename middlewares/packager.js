@@ -1,7 +1,7 @@
 module.exports = {
     history(req,res,next){
         req.data = {
-            userId : req.body.userId, //ini harusnya dari middleware hasil decode token
+            userId : req.userId, //ini harusnya dari middleware hasil decode token
             tutorialId : req.body.tutorialId,
             score : req.body.score,
             time : req.body.time

@@ -40,7 +40,7 @@ module.exports = {
            })
         }else{
             model
-            .find()
+            .find({userId:req.userId})
             .then((data)=>{
                 res.status(200).json(data)
             })
