@@ -6,7 +6,7 @@ const historySchema = new Schema ({
     tutorialId: String,
     score : Number,
     Time : {
-        type : Date
+        type : String
     }
 },{
     timestamps : true

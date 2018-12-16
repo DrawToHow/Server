@@ -1,13 +1,14 @@
+require('dotenv').config()
 const express = require('express');
 const cors = require('cors')
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const historyRouter = require('./routes/history')
-const tutorialRouter = require('./routes/tutorial')
+const historyRouter = require('./routes/history');
+const tutorialRouter = require('./routes/tutorial');
+const difficultyRouter = require('./routes/difficulty');
 const app = express();
 const mongoose = require('mongoose');
 const port = process.env.PORT || 6000
-require('dotenv').config()
 
 mongoose
     .connect(process.env.MLAB, {
@@ -26,8 +27,9 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/history', historyRouter);
-app.use('/tutorial', tutorialRouter);
+app.use('/histories', historyRouter);
+app.use('/tutorials', tutorialRouter);
+app.use('/difficulties', difficultyRouter);
 
 app.listen(port, () => {
     console.log('express server started on port ', port)
