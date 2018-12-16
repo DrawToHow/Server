@@ -1,6 +1,6 @@
 //di giniin supaya tinggal edit dua const ini aja misal mau dijadiin crud untuk model lain
-const model = require('../models/Difficulty');
-const name = 'difficulty';
+const model = require('../models/Tutorial');
+const name = 'tutorial';
 
 module.exports = {
     create(req,res){
@@ -57,8 +57,7 @@ module.exports = {
         }
     },
     update(req,res){
-        const data = req.data
-
+        const data = req.data; //ini di pack nya di middleware
         model
         .findOneAndUpdate({
             _id : req.params.id
