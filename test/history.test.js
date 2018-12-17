@@ -329,4 +329,68 @@ describe('History endpoints tests', function () {
             expect(response.body.errors.history.message).to.equal("History not found");
         });
     });
+
+    describe('DELETE /histories', function () {
+        it('should send a deleted movie and a 200 status code', async function () {
+            const response = await chai
+                                    .request(app)
+                                    .delete("/histories/" + historyId)
+                                    .set('Access-Token', accessToken);
+
+            expect(response).to.have.status(200);
+            expect(response.body).to.be.an("object");
+            expect(response.body).to.have.property("_id");
+        });
+
+        it('should send an error object with a message and a 400 status code (no token)', async function () {
+            const response = await chai
+                                    .request(app)
+                                    .delete("/histories/" + historyId);
+
+            expect(response).to.have.status(400);
+            expect(response.body).to.be.an("object");
+            expect(response.body).to.have.property("errors");
+            expect(response.body.errors).to.have.property("token");
+            expect(response.body.errors.token.message).to.equal("Please provide your access token");
+        });
+
+        it('should send an error object with a message and a 400 status code (invalid token)', async function () {
+            const response = await chai
+                                .request(app)
+                                .delete("/histories/" + historyId)
+                                .set('Access-Token', 'senecamanu');
+
+            expect(response).to.have.status(400);
+            expect(response.body).to.be.an("object");
+            expect(response.body).to.have.property('errors');
+            expect(response.body.errors).to.have.property('token');
+            expect(response.body.errors.token.message).to.equal('Invalid access token');
+        });
+
+        it('should send an error object with a message and a 404 status code (history not found)', async function () {
+            const response = await chai
+                                    .request(app)
+                                    .delete("/histories/5bea58362e5fcc6dae24a3f1")
+                                    .set('Access-Token', accessToken);
+
+            expect(response).to.have.status(404);
+            expect(response.body).to.be.an("object");
+            expect(response.body).to.have.property('errors')
+            expect(response.body.errors).to.have.property("history");
+            expect(response.body.errors.history.message).to.equal("History not found");
+        });
+
+        it('should send an error object with a message and a 404 status code (history not found)', async function () {
+            const response = await chai
+                                    .request(app)
+                                    .delete("/histories/foobar")
+                                    .set('Access-Token', accessToken);
+
+            expect(response).to.have.status(404);
+            expect(response.body).to.be.an("object");
+            expect(response.body).to.have.property('errors')
+            expect(response.body.errors).to.have.property("history");
+            expect(response.body.errors.history.message).to.equal("History not found");
+        });
+    });
 });
