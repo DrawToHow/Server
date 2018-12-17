@@ -5,9 +5,9 @@ const {history} = require('../middlewares/packager');
 const {isLogin} = require('../middlewares/')
 
 router.post('/',isLogin,history,create);
-router.get('/:id',read);
+router.get('/:id', isLogin, read);
 router.get('/',isLogin,read);
-router.put('/',isLogin,history,update);
-router.delete('/',isLogin,delet);
+router.put('/:id',isLogin,history,update);
+router.delete('/:id',isLogin,delet);
 
 module.exports = router;

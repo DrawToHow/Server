@@ -26,7 +26,18 @@ module.exports = {
            model
            .findById(req.params.id)
            .then((data)=>{
-               res.status(200).json(data)
+               if(data) {
+                res.status(200).json(data)
+               } else {
+                   res.status(404).json({
+                       errors: {
+                           history:{
+                               message: 'History not found'
+                           } 
+                       }
+                   })
+               }
+               
            })
            .catch((error)=>{
                res.status(400).json({
@@ -59,33 +70,49 @@ module.exports = {
     update(req,res){
         const data = req.data
         model
-        .findOneAndUpdate({
-            _id : req.params.id
-        },{
-            data
-        },{
-            new : true
-        })
-        .then((updated)=>{
-            res.status(200).json(updated)
-        })
-        .catch((error)=>{
-            res.status(400).json({
-                errors : {
-                    update : {
-                        message : `Update ${name} error`,
-                        error : error
-                    }
-                }
+            .findOneAndUpdate({
+                _id : req.params.id
+            },{
+                data
+            },{
+                new : true
             })
-        })
+            .then((updated)=>{
+                res.status(200).json(updated)
+            })
+            .catch((error)=>{
+                res.status(400).json({
+                    errors : {
+                        update : {
+                            message : `Update ${name} error`,
+                            error : error
+                        }
+                    }
+                })
+            })
     },
     delete(req,res){
-        model.findOneAndDelete({
+        model.findOne({
             _id : req.params.id
         })
-        .then((deleted)=>{
-            res.status(200).json(deleted)
+        .then((history)=>{
+            if (history) {
+                history
+                    .remove()
+                    .then(deleted => {
+                        res.status(200).json(deleted)
+                    })
+               
+            } else {
+                res.status(404).json({
+                    errors: {
+                        history: {
+                            message: 'History not found'
+                        }
+                    }
+                })
+            }
+           
         })
         .catch((error)=>{
             res.status(400).json({

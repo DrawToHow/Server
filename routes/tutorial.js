@@ -6,7 +6,7 @@ const {tutorial} = require('../middlewares/packager');
 router.post('/',tutorial,create);
 router.get('/:id',read);
 router.get('/',read);
-router.put('/',tutorial,update);
-router.delete('/',delet);
+router.put('/:id',tutorial,update);
+router.delete('/:id',delet);
 
 module.exports = router;
