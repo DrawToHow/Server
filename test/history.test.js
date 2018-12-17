@@ -108,7 +108,7 @@ describe('History endpoints tests', function () {
 
             expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
-            expect(response.body).to.have.property('errors')
+            expect(response.body).to.have.property('errors');
             expect(response.body.errors).to.have.property('token');
             expect(response.body.errors.token.message).to.equal('Please provide your access token');
         });
@@ -138,8 +138,7 @@ describe('History endpoints tests', function () {
             expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
             expect(response.body).to.have.property('errors')
-            expect(response.body.errors).to.have.property('tutorialId');
-            expect(response.body.errors.title.message).to.equal('TutorialId is required');
+            expect(response.body.errors.create.error.errors.tutorialId.message).to.equal('tutorialId is required');
         });
 
         it("should send an error object with a message and a 400 status code (tutorialId === '')", async function () {
@@ -154,8 +153,8 @@ describe('History endpoints tests', function () {
             expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
             expect(response.body).to.have.property('errors')
-            expect(response.body.errors).to.have.property('tutorialId');
-            expect(response.body.errors.title.message).to.equal('tutorialId is required');
+            expect(response.body.errors.create.error.errors).to.have.property('tutorialId');
+            expect(response.body.errors.create.error.errors.tutorialId.message).to.equal('tutorialId is required');
         });
 
         it("should send an error object with a message and a 400 status code (no score key)", async function () {
@@ -170,8 +169,8 @@ describe('History endpoints tests', function () {
             expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
             expect(response.body).to.have.property('errors')
-            expect(response.body.errors).to.have.property('score');
-            expect(response.body.errors.description.message).to.equal('Score is required');
+            expect(response.body.errors.create.error.errors).to.have.property('score');
+            expect(response.body.errors.create.error.errors.score.message).to.equal('score is required');
         });
 
         it("should send an error object with a message and a 400 status code (score === '')", async function () {
@@ -186,8 +185,8 @@ describe('History endpoints tests', function () {
             expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
             expect(response.body).to.have.property('errors')
-            expect(response.body.errors).to.have.property('score');
-            expect(response.body.errors.description.message).to.equal('Score is required');
+            expect(response.body.errors.create.error.errors).to.have.property('score');
+            expect(response.body.errors.create.error.errors.score.message).to.equal('score is required');
         });
     
         it("should send an error object with a message and a 400 status code (no time key)", async function () {
@@ -202,8 +201,8 @@ describe('History endpoints tests', function () {
             expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
             expect(response.body).to.have.property('errors')
-            expect(response.body.errors).to.have.property('time');
-            expect(response.body.errors.description.message).to.equal('Time is required');
+            expect(response.body.errors.create.error.errors).to.have.property('time');
+            expect(response.body.errors.create.error.errors.time.message).to.equal('time is required');
         });
 
         it("should send an error object with a message and a 400 status code (time === '')", async function () {
@@ -218,8 +217,8 @@ describe('History endpoints tests', function () {
             expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
             expect(response.body).to.have.property('errors')
-            expect(response.body.errors).to.have.property('time');
-            expect(response.body.errors.description.message).to.equal('Time is required');
+            expect(response.body.errors.create.error.errors).to.have.property('time');
+            expect(response.body.errors.create.error.errors.time.message).to.equal('time is required');
         });
 
         it("should send an error object with a message and a 400 status code (no tutorialId, score and time keys)", async function () {
@@ -234,12 +233,12 @@ describe('History endpoints tests', function () {
             expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
             expect(response.body).to.have.property('errors')
-            expect(response.body.errors).to.have.property("tutorialId");
-            expect(response.body.errors.title.message).to.equal("TutorialId is required");
-            expect(response.body.errors).to.have.property('score');
-            expect(response.body.errors.description.message).to.equal('Score is required');
-            expect(response.body.errors).to.have.property('time');
-            expect(response.body.errors.description.message).to.equal('Time is required');
+            expect(response.body.errors.create.error.errors).to.have.property("tutorialId");
+            expect(response.body.errors.create.error.errors.tutorialId.message).to.equal("tutorialId is required");
+            expect(response.body.errors.create.error.errors).to.have.property('score');
+            expect(response.body.errors.create.error.errors.score.message).to.equal('score is required');
+            expect(response.body.errors.create.error.errors).to.have.property('time');
+            expect(response.body.errors.create.error.errors.time.message).to.equal('time is required');
         });
 
         it("should send an error object with a message and a 400 status code (tutorialId === '', score === '' and time === '')", async function () {
@@ -254,12 +253,12 @@ describe('History endpoints tests', function () {
             expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
             expect(response.body).to.have.property('errors')
-            expect(response.body.errors).to.have.property("tutorialId");
-            expect(response.body.errors.title.message).to.equal("TutorialId is required");
-            expect(response.body.errors).to.have.property('score');
-            expect(response.body.errors.description.message).to.equal('Score is required');
-            expect(response.body.errors).to.have.property('time');
-            expect(response.body.errors.description.message).to.equal('Time is required');
+            expect(response.body.errors.create.error.errors).to.have.property("tutorialId");
+            expect(response.body.errors.create.error.errors.tutorialId.message).to.equal("tutorialId is required");
+            expect(response.body.errors.create.error.errors).to.have.property('score');
+            expect(response.body.errors.create.error.errors.score.message).to.equal('score is required');
+            expect(response.body.errors.create.error.errors).to.have.property('time');
+            expect(response.body.errors.create.error.errors.time.message).to.equal('time is required');
         });
     });
 
@@ -321,17 +320,16 @@ describe('History endpoints tests', function () {
                                     .request(app)
                                     .get("/histories/foobar")
                                     .set('Access-Token', accessToken);
-
-            expect(response).to.have.status(404);
+            expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
             expect(response.body).to.have.property('errors')
-            expect(response.body.errors).to.have.property("history");
-            expect(response.body.errors.history.message).to.equal("History not found");
+            expect(response.body.errors).to.have.property("read");
+            expect(response.body.errors.read.message).to.equal("Read history error");
         });
     });
 
     describe('DELETE /histories', function () {
-        it('should send a deleted movie and a 200 status code', async function () {
+        it('should send a deleted history and a 200 status code', async function () {
             const response = await chai
                                     .request(app)
                                     .delete("/histories/" + historyId)
@@ -380,17 +378,17 @@ describe('History endpoints tests', function () {
             expect(response.body.errors.history.message).to.equal("History not found");
         });
 
-        it('should send an error object with a message and a 404 status code (history not found)', async function () {
+        it('should send an error object with a message and a 404 status code (history not found with not objectId)', async function () {
             const response = await chai
                                     .request(app)
                                     .delete("/histories/foobar")
                                     .set('Access-Token', accessToken);
 
-            expect(response).to.have.status(404);
+            expect(response).to.have.status(400);
             expect(response.body).to.be.an("object");
             expect(response.body).to.have.property('errors')
-            expect(response.body.errors).to.have.property("history");
-            expect(response.body.errors.history.message).to.equal("History not found");
+            expect(response.body.errors).to.have.property("delete");
+            expect(response.body.errors.delete.message).to.equal("Delete history error");
         });
     });
 });

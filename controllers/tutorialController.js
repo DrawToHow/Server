@@ -8,7 +8,7 @@ module.exports = {
         model
         .create(data)
         .then((created)=>{
-            res.status(200).json(created)
+            res.status(201).json(created)
         })
         .catch((error)=>{
             res.status(400).json({
@@ -58,13 +58,18 @@ module.exports = {
     },
     update(req,res){
         const data = req.data; //ini di pack nya di middleware
+        // console.log(data,'DATA FROM BODy')
         model
         .findOneAndUpdate({
             _id : req.params.id
-        },{
-            data
-        },{
-            new : true
+        }, 
+        {
+            $set: {
+                data
+            }
+        },
+        {
+            new: true
         })
         .then((updated)=>{
             res.status(200).json(updated)
