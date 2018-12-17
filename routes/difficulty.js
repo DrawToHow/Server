@@ -6,7 +6,7 @@ const {difficulty} = require('../middlewares/packager');
 router.post('/',difficulty,create);
 router.get('/:id',read);
 router.get('/',read);
-router.put('/',difficulty,update);
-router.delete('/',delet);
+router.put('/:id',difficulty,update);
+router.delete('/:id',delet);
 
 module.exports = router;

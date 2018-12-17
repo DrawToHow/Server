@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const port = process.env.PORT || 6000
 
 mongoose
-    .connect(process.env.MLAB, {
+    .connect(process.env.mongo, {
         useNewUrlParser: true
     })
     .then(() => {
