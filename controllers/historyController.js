@@ -8,7 +8,7 @@ module.exports = {
         model
         .create(data)
         .then((created)=>{
-            res.status(200).json(created)
+            res.status(201).json(created)
         })
         .catch((error)=>{
             res.status(400).json({
@@ -40,7 +40,7 @@ module.exports = {
            })
         }else{
             model
-            .find()
+            .find({userId:req.userId})
             .then((data)=>{
                 res.status(200).json(data)
             })
