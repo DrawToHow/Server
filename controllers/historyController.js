@@ -8,7 +8,7 @@ module.exports = {
         model
         .create(data)
         .then((created)=>{
-            res.status(200).json(created)
+            res.status(201).json(created)
         })
         .catch((error)=>{
             res.status(400).json({
