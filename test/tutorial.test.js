@@ -26,6 +26,21 @@ describe("Tutorial", () => {
     });
   });
 
+  before(async function () {
+    const user = { email: 'hadi@mail.com', password: 'secret' };
+    await chai
+            .request(app)
+            .post('/users/register')
+            .send(user);
+
+    const response = await chai
+                            .request(app)
+                            .post('/users/login')
+                            .send(user);
+
+    accessToken = response.body.accessToken;
+  });
+
   after(done => {
     User.deleteMany({}, () => {
       Tutorial.deleteMany({}, () => {
@@ -46,6 +61,7 @@ describe("Tutorial", () => {
         .request(app)
         .post("/tutorials")
         .send(toturialObj)
+        .set('Access-Token', accessToken)
         .end((err, result) => {
           expect(result).to.have.status(201);
           expect(result.body).to.have.property("title");
@@ -67,6 +83,7 @@ describe("Tutorial", () => {
         .request(app)
         .post("/tutorials")
         .send(toturialObj)
+        .set('Access-Token', accessToken)
         .end((err, result) => {
           expect(result).to.have.status(400);
           expect(result.body.errors.create.message).to.equals(
@@ -92,6 +109,7 @@ describe("Tutorial", () => {
         .request(app)
         .post("/tutorials")
         .send(toturialObj)
+        .set('Access-Token', accessToken)
         .end((err, result) => {
           expect(result).to.have.status(400);
           expect(result.body.errors.create.message).to.equals(
@@ -117,6 +135,7 @@ describe("Tutorial", () => {
         .request(app)
         .post("/tutorials")
         .send(toturialObj)
+        .set('Access-Token', accessToken)
         .end((err, result) => {
           expect(result).to.have.status(400);
           expect(result.body.errors.create.message).to.equals(
@@ -138,6 +157,7 @@ describe("Tutorial", () => {
       chai
         .request(app)
         .get("/tutorials")
+        .set('Access-Token', accessToken)
         .end((err, result) => {
           expect(result).to.have.property("status");
           expect(result).to.have.status(200);
@@ -147,6 +167,38 @@ describe("Tutorial", () => {
           expect(result.body[0]).to.have.property("description");
           expect(result.body[0]).to.have.property("thumbnail");
           expect(result.body[0]).to.have.property("difficulty");
+          done();
+        });
+    });
+
+    it(" GET /tutorials/id should return one detail tutorials and should have status 200", done => {
+      chai
+        .request(app)
+        .get("/tutorials/"+tutorialId)
+        .set('Access-Token', accessToken)
+        .end((err, result) => {
+          expect(result).to.have.property("status");
+          expect(result).to.have.status(200);
+          expect(result.body).to.be.an("object");
+  
+          expect(result.body).to.have.property("title");
+          expect(result.body).to.have.property("description");
+          expect(result.body).to.have.property("thumbnail");
+          expect(result.body).to.have.property("difficulty");
+          done();
+        });
+    });
+
+    it(" GET /tutorials/id should return error and status 400 if id is invalid objectid", done => {
+      chai
+        .request(app)
+        .get("/tutorials/foobar")
+        .set('Access-Token', accessToken)
+        .end((err, result) => {
+          expect(result).to.have.property("status");
+          expect(result).to.have.status(400);
+          expect(result.body).to.be.an("object");  
+          expect(result.body).to.have.property("errors");
           done();
         });
     });
@@ -164,6 +216,7 @@ describe("Tutorial", () => {
         .request(app)
         .put("/tutorials/" + tutorialId)
         .send(obj)
+        .set('Access-Token', accessToken)
         .end((err, result) => {
           if (err) {
             console.log(err);
@@ -188,6 +241,7 @@ describe("Tutorial", () => {
       chai
         .request(app)
         .delete("/tutorials/" + tutorialId)
+        .set('Access-Token', accessToken)
         .end((err, result) => {
           if (err) {
             console.log("testing delete tutorial error", err);
