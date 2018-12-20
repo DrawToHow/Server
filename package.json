@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "serverless-nodejs-app",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -24,7 +24,8 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
-    "mongoose": "^5.3.16"
+    "mongoose": "^5.3.16",
+    "serverless-http": "^1.8.0"
   },
   "devDependencies": {
     "nyc": "^13.1.0"

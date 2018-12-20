@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express');
 const cors = require('cors')
+const sls = require('serverless-http');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const historyRouter = require('./routes/history');
@@ -36,3 +37,4 @@ app.listen(port, () => {
 })
 
 module.exports = app;
+module.exports.server = sls(app)
